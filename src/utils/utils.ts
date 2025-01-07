@@ -1,5 +1,5 @@
 import { GridValidRowModel } from "@mui/x-data-grid-premium";
-import { ICONS } from "./Mappers";
+import { ICONS } from "./mappers";
 import { GridColDefGenerator } from "@mui/x-data-grid-generator";
 
 export const getIconForTitle = (title: string) => {
@@ -9,17 +9,6 @@ export const getIconForTitle = (title: string) => {
 
   return matchingKey ? ICONS[matchingKey] : null;
 };
-
-interface CountryValue {
-  value: string;
-  code: string;
-  label: string;
-  phone: string;
-}
-
-interface GridValidRowModelWithCountry extends GridValidRowModel {
-  counterPartyCountry?: CountryValue;
-}
 
 export const getHiddenRowFields = (
   params: { row?: GridValidRowModel } | undefined,
@@ -50,7 +39,7 @@ export const getHiddenRowFields = (
 export const cleanText = (text: string) => {
   return JSON.stringify(text, null, 2)
     .replace(/"/g, "")
-    .replace(/[{}\[\]]/g, "");
+    .replace(/[{}[\]]/g, "");
 };
 
 export const getColor = (index: number, total: number) => {

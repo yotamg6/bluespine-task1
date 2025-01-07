@@ -1,7 +1,7 @@
 import * as React from "react";
 import Table from "./Table";
-import usePaginatedData from "./usePaginatedData";
-import { VisibleColumnsIndexes } from "./types";
+import useTableData from "../hooks/useTableData";
+import { VisibleColumnsIndexes } from "../types";
 import DetailsBox from "./DetailsBox";
 
 const Commodity = () => {
@@ -12,7 +12,6 @@ const Commodity = () => {
   const {
     paginatedData,
     loading,
-    initialState,
     totalRows,
     handlePaginationModelChange,
     paginationModel,
@@ -21,7 +20,7 @@ const Commodity = () => {
     hiddenFieldsRow,
     showDetails,
     setShowDetails,
-  } = usePaginatedData({
+  } = useTableData({
     dataSet: "Commodity",
     visibleColumnsIndexes,
   });
@@ -34,7 +33,6 @@ const Commodity = () => {
         handlePaginationModelChange={handlePaginationModelChange}
         paginationModel={paginationModel}
         totalRows={totalRows}
-        initialState={initialState}
         visibleColumns={visibleColumns}
         handleRowClick={handleRowClick}
         showDetails={showDetails}
@@ -47,6 +45,3 @@ const Commodity = () => {
 };
 
 export default Commodity;
-
-// //TODO:
-// // details component

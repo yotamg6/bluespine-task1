@@ -1,20 +1,18 @@
 import { Box } from "@mui/material";
 import {
   DataGridPremium,
-  GridCallbackDetails,
   GridColDef,
   GridEventListener,
   GridFooter,
   GridFooterContainer,
-  GridPagination,
   GridPaginationModel,
   GridToolbar,
   GridValidRowModel,
   useGridApiRef,
 } from "@mui/x-data-grid-premium";
-import { DemoData } from "./types";
+import { DemoData } from "../types";
 import { GridInitialStatePremium } from "@mui/x-data-grid-premium/models/gridStatePremium";
-import { PAGE_SIZE_OPTIONS } from "./consts";
+import { PAGE_SIZE_OPTIONS } from "../utils/constants";
 
 interface TableProps {
   isLoading: boolean;
@@ -22,7 +20,6 @@ interface TableProps {
   handlePaginationModelChange: (model: GridPaginationModel) => void;
   data: DemoData;
   totalRows: number;
-  initialState: GridInitialStatePremium;
   visibleColumns: GridColDef<GridValidRowModel>[];
   handleRowClick: GridEventListener<"rowClick">;
   pageSizeOptions?: number[];
@@ -38,7 +35,6 @@ const Table = ({
   visibleColumns,
   handleRowClick,
   showDetails,
-  initialState, //TODO: remove
   pageSizeOptions = PAGE_SIZE_OPTIONS,
 }: TableProps) => {
   const apiRef = useGridApiRef();
@@ -74,7 +70,6 @@ const Table = ({
         apiRef={apiRef}
         {...data}
         loading={isLoading}
-        // initialState={initialState} //TODO: remove
         slots={{ toolbar: GridToolbar, footer: CustomFooter }}
         pagination
         paginationModel={paginationModel}

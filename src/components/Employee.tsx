@@ -1,9 +1,7 @@
-import { useMemo } from "react";
 import DetailsBox from "./DetailsBox";
 import Table from "./Table";
-import { VisibleColumnsIndexes } from "./types";
-import usePaginatedData from "./usePaginatedData";
-import { getHiddenRowFields } from "./utils";
+import { VisibleColumnsIndexes } from "../types";
+import useTableData from "../hooks/useTableData";
 
 const Employee = () => {
   const visibleColumnsIndexes: VisibleColumnsIndexes = {
@@ -13,7 +11,6 @@ const Employee = () => {
   const {
     paginatedData,
     loading,
-    initialState,
     totalRows,
     handlePaginationModelChange,
     paginationModel,
@@ -21,8 +18,8 @@ const Employee = () => {
     handleRowClick,
     hiddenFieldsRow,
     showDetails,
-    setShowDetails
-  } = usePaginatedData({
+    setShowDetails,
+  } = useTableData({
     dataSet: "Employee",
     visibleColumnsIndexes,
   });
@@ -35,12 +32,13 @@ const Employee = () => {
         handlePaginationModelChange={handlePaginationModelChange}
         paginationModel={paginationModel}
         totalRows={totalRows}
-        initialState={initialState}
         visibleColumns={visibleColumns}
         handleRowClick={handleRowClick}
         showDetails={showDetails}
       />
-      {showDetails && hiddenFieldsRow && <DetailsBox data={hiddenFieldsRow} setShowDetails={setShowDetails} />}
+      {showDetails && hiddenFieldsRow && (
+        <DetailsBox data={hiddenFieldsRow} setShowDetails={setShowDetails} />
+      )}
     </div>
   );
 };

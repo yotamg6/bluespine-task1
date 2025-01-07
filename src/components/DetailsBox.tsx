@@ -1,6 +1,6 @@
 import { Box, Card, CardContent, Divider, Typography } from "@mui/material";
 import { GridValidRowModel } from "@mui/x-data-grid-premium";
-import { cleanText, getColor } from "./utils";
+import { cleanText, getColor } from "../utils/utils";
 import CloseIcon from "@mui/icons-material/Close";
 
 interface DetailsBoxProps {

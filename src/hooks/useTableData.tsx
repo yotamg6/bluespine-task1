@@ -1,14 +1,13 @@
 import { useCallback, useMemo, useState } from "react";
 import { useDemoData } from "@mui/x-data-grid-generator";
-import { DataSetType, DemoData, VisibleColumnsIndexes } from "./types";
-import { NUM_OF_ROWS_TO_GENERATE, PAGE_SIZE } from "./consts";
+import { DataSetType, VisibleColumnsIndexes } from "../types";
+import { NUM_OF_ROWS_TO_GENERATE, PAGE_SIZE } from "../utils/constants";
 import {
   GridPaginationModel,
-  GridRowId,
   GridRowParams,
   GridValidRowModel,
 } from "@mui/x-data-grid-premium";
-import { getHiddenRowFields } from "./utils";
+import { getHiddenRowFields } from "../utils/utils";
 
 interface PaginatedDataProps {
   dataSet: DataSetType;
@@ -18,13 +17,7 @@ interface PaginatedDataProps {
   rowsToGenerate?: number;
 }
 
-// interface Row {
-//   mainFields: GridValidRowModel; //TODO: remove?
-//   hiddenFields: GridValidRowModel;
-// }
-
-const usePaginatedData = ({
-  //TODO: rename hook name
+const useTableData = ({
   dataSet,
   visibleColumnsIndexes,
   page = 0,
@@ -43,10 +36,8 @@ const usePaginatedData = ({
   const [showDetails, setShowDetails] = useState(false);
 
   const { data, loading } = useDemoData({
-    //TODO: move to api file
     dataSet,
     rowLength: rowsToGenerate,
-    // editable: true, TODO: remove
   });
 
   const visibleColumns = data.columns.slice(
@@ -89,16 +80,9 @@ const usePaginatedData = ({
     };
   }, [data, paginationModel, page, pageSize]);
 
-  const initialState = {
-    pagination: {
-      paginationModel: { pageSize, page },
-    },
-  };
-
   return {
     paginatedData: paginateData(),
     loading,
-    initialState,
     totalRows: data.rows?.length || 0,
     paginationModel,
     handlePaginationModelChange,
@@ -106,8 +90,8 @@ const usePaginatedData = ({
     handleRowClick,
     hiddenFieldsRow,
     showDetails,
-    setShowDetails
+    setShowDetails,
   };
 };
 
-export default usePaginatedData;
+export default useTableData;
