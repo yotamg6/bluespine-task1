@@ -1,7 +1,7 @@
-import { AppBar, Box, CssBaseline, Toolbar, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import SideBar from "./SideBar";
 import TopPanel from "./TopPanel";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PageContainer from "./PageContainer";
 
 const AppShell = () => {
@@ -9,12 +9,16 @@ const AppShell = () => {
   const handlePageTitleClick = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
+  useEffect(() => {
+    document.title = "Bluespine - Task-1";
+  }, []);
   return (
     <Box sx={{ display: "flex" }}>
-      {/* //TODO: consider removing cssbaseline */}
-      <CssBaseline />
       <TopPanel />
-      <SideBar handlePageTitleClick={handlePageTitleClick} />
+      <SideBar
+        handlePageTitleClick={handlePageTitleClick}
+        currentPage={currentPage}
+      />
       <PageContainer currentPage={currentPage} />
     </Box>
   );

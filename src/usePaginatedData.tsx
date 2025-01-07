@@ -105,7 +105,8 @@ const usePaginatedData = ({
     visibleColumns,
     handleRowClick,
     hiddenFieldsRow,
-    showDetails
+    showDetails,
+    setShowDetails
   };
 };
 

@@ -26,6 +26,7 @@ interface TableProps {
   visibleColumns: GridColDef<GridValidRowModel>[];
   handleRowClick: GridEventListener<"rowClick">;
   pageSizeOptions?: number[];
+  showDetails: boolean;
 }
 
 const Table = ({
@@ -36,7 +37,8 @@ const Table = ({
   totalRows,
   visibleColumns,
   handleRowClick,
-  initialState,
+  showDetails,
+  initialState, //TODO: remove
   pageSizeOptions = PAGE_SIZE_OPTIONS,
 }: TableProps) => {
   const apiRef = useGridApiRef();
@@ -55,11 +57,16 @@ const Table = ({
     <Box
       sx={{
         marginTop: 7,
-        height: "45rem",
+        backgroundColor: "#b5c7eb",
+        height: showDetails ? "23rem" : "45rem",
         "& .MuiDataGrid-columnHeaders": {
           position: "sticky",
           top: 0,
           zIndex: 1,
+        },
+        "& .MuiDataGrid-columnHeader": {
+          //   backgroundColor: "#8ddcdc",
+          backgroundColor: "#f2f0ef",
         },
       }}
     >

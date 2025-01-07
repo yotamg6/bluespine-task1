@@ -31,11 +31,34 @@ export const getHiddenRowFields = (
 
   const rowData = params.row;
 
-  return hiddenColumns.reduce<GridValidRowModel>((acc, cur) => {
-    const field = cur.field;
-    if (field in rowData) {
-      acc[field] = rowData[field];
-    }
-    return acc;
-  }, {});
+  const hiddenRowFields = hiddenColumns.reduce<GridValidRowModel>(
+    (acc, cur) => {
+      const field = cur.field;
+      if (field in rowData) {
+        acc[field] = rowData[field];
+      }
+      return acc;
+    },
+    {}
+  );
+  if (Object.keys(hiddenRowFields).length < 5) {
+    return rowData;
+  }
+  return hiddenRowFields;
+};
+
+export const cleanText = (text: string) => {
+  return JSON.stringify(text, null, 2)
+    .replace(/"/g, "")
+    .replace(/[{}\[\]]/g, "");
+};
+
+export const getColor = (index: number, total: number) => {
+  const ratio = index / (total - 1);
+
+  const r = Math.round(181 + (255 - 181) * ratio);
+  const g = Math.round(199 + (192 - 199) * ratio);
+  const b = Math.round(235 + (203 - 235) * ratio);
+
+  return `rgb(${r}, ${g}, ${b})`;
 };

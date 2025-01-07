@@ -11,16 +11,24 @@ import { useState } from "react";
 
 interface SideBarProps {
   handlePageTitleClick: (pageNumber: number) => void;
+  currentPage: number;
 }
 
 //TODO: mark in bold the selected item
 
-const SideBar = ({ handlePageTitleClick }: SideBarProps) => {
+const SideBar = ({ handlePageTitleClick, currentPage }: SideBarProps) => {
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation">
       <List>
         {["Commodity", "Employee"].map((title, index) => (
-          <ListItem key={title} onClick={() => handlePageTitleClick(index + 1)}>
+          <ListItem
+            key={title}
+            onClick={() => handlePageTitleClick(index + 1)}
+            sx={{
+              backgroundColor:
+                currentPage === index + 1 ? "#cbcbcb" : "inherit",
+            }}
+          >
             <ListItemButton>
               <ListItemIcon>{getIconForTitle(title)}</ListItemIcon>
               <ListItemText primary={title} />
@@ -32,7 +40,7 @@ const SideBar = ({ handlePageTitleClick }: SideBarProps) => {
   );
 
   return (
-    <div>
+    <Box>
       <Drawer
         variant="permanent"
         sx={{
@@ -45,13 +53,14 @@ const SideBar = ({ handlePageTitleClick }: SideBarProps) => {
             borderTop: 3,
             borderRight: 3,
             borderColor: "divider",
+            backgroundColor: "#faf1f0",
           },
         }}
         open
       >
         {DrawerList}
       </Drawer>
-    </div>
+    </Box>
   );
 };
 export default SideBar;

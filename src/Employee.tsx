@@ -21,6 +21,7 @@ const Employee = () => {
     handleRowClick,
     hiddenFieldsRow,
     showDetails,
+    setShowDetails
   } = usePaginatedData({
     dataSet: "Employee",
     visibleColumnsIndexes,
@@ -37,8 +38,9 @@ const Employee = () => {
         initialState={initialState}
         visibleColumns={visibleColumns}
         handleRowClick={handleRowClick}
+        showDetails={showDetails}
       />
-      {showDetails && hiddenFieldsRow && <DetailsBox data={hiddenFieldsRow} />}
+      {showDetails && hiddenFieldsRow && <DetailsBox data={hiddenFieldsRow} setShowDetails={setShowDetails} />}
     </div>
   );
 };
