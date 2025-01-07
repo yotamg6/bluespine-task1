@@ -11,7 +11,6 @@ import {
   useGridApiRef,
 } from "@mui/x-data-grid-premium";
 import { DemoData } from "../types";
-import { GridInitialStatePremium } from "@mui/x-data-grid-premium/models/gridStatePremium";
 import { PAGE_SIZE_OPTIONS } from "../utils/constants";
 
 interface TableProps {
@@ -61,7 +60,6 @@ const Table = ({
           zIndex: 1,
         },
         "& .MuiDataGrid-columnHeader": {
-          //   backgroundColor: "#8ddcdc",
           backgroundColor: "#f2f0ef",
         },
       }}
@@ -79,6 +77,11 @@ const Table = ({
         pageSizeOptions={pageSizeOptions}
         columns={visibleColumns}
         onRowClick={handleRowClick}
+        sx={{
+          "& .MuiDataGrid-row:hover": {
+            cursor: "pointer",
+          },
+        }}
       />
     </Box>
   );
