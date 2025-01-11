@@ -4,11 +4,12 @@ import TopPanel from "./TopPanel";
 import { useEffect, useState } from "react";
 import PageContainer from "./PageContainer";
 
-const AppShell = () => {
-  const [currentPage, setCurrentPage] = useState(1);
+const App = () => {
+  const [currentPageIndex, setCurrentPageIndedx] = useState(0);
   const handlePageTitleClick = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
+    setCurrentPageIndedx(pageNumber);
   };
+
   useEffect(() => {
     document.title = "Bluespine - Task-1";
   }, []);
@@ -17,11 +18,11 @@ const AppShell = () => {
       <TopPanel />
       <SideBar
         handlePageTitleClick={handlePageTitleClick}
-        currentPage={currentPage}
+        currentPageIndex={currentPageIndex}
       />
-      <PageContainer currentPage={currentPage} />
+      <PageContainer pageIndex={currentPageIndex} />
     </Box>
   );
 };
 
-export default AppShell;
+export default App;

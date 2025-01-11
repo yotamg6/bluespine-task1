@@ -1,9 +1,9 @@
 import { render } from "@testing-library/react";
-import AppShell from "../../components/AppShell";
+import App from "../../components/App";
 
 describe("AppShell", () => {
   it("should set document title on mount", () => {
-    render(<AppShell />);
+    render(<App />);
     expect(document.title).toBe("Bluespine - Task-1");
   });
 });

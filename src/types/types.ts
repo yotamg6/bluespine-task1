@@ -1,8 +1,10 @@
+import { SvgIconProps } from "@mui/material";
 import {
   GridColDef,
   GridInitialState,
   GridValidRowModel,
 } from "@mui/x-data-grid-premium";
+import { ReactElement } from "react";
 
 export type DataSetType = "Commodity" | "Employee";
 export interface DemoData {
@@ -11,6 +13,13 @@ export interface DemoData {
   initialState?: GridInitialState;
 }
 export interface VisibleColumnsIndexes {
-  visibleColumnsStart: number;
-  visibleColumnsEnd: number;
+  start: number;
+  end: number;
+}
+
+export interface Page {
+  title: string;
+  dataSet: DataSetType;
+  sideBarIcon: ReactElement<SvgIconProps>;
+  visibleColumnsIndexes: VisibleColumnsIndexes
 }

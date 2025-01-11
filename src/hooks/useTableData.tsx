@@ -1,15 +1,15 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDemoData } from "@mui/x-data-grid-generator";
-import { DataSetType, VisibleColumnsIndexes } from "../types";
+import { DataSetType, VisibleColumnsIndexes } from "../types/types";
 import { NUM_OF_ROWS_TO_GENERATE, PAGE_SIZE } from "../utils/constants";
 import {
   GridPaginationModel,
   GridRowParams,
   GridValidRowModel,
 } from "@mui/x-data-grid-premium";
-import { getHiddenRowFields } from "../utils/utils";
+import { getHiddenRowFields, sliceColumns } from "../utils/utils";
 
-interface PaginatedDataProps {
+interface UseTableDataProps {
   dataSet: DataSetType;
   visibleColumnsIndexes: VisibleColumnsIndexes;
   page?: number;
@@ -23,7 +23,7 @@ const useTableData = ({
   page = 0,
   pageSize = PAGE_SIZE,
   rowsToGenerate = NUM_OF_ROWS_TO_GENERATE,
-}: PaginatedDataProps) => {
+}: UseTableDataProps) => {
   const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
     pageSize,
     page,
@@ -38,15 +38,33 @@ const useTableData = ({
   const { data, loading } = useDemoData({
     dataSet,
     rowLength: rowsToGenerate,
+    editable: true,
   });
 
-  const visibleColumns = data.columns.slice(
-    visibleColumnsIndexes.visibleColumnsStart,
-    visibleColumnsIndexes.visibleColumnsEnd
-  );
+  useEffect(() => {
+    setPaginationModel({
+      pageSize,
+      page: 0,
+    });
+    setShowDetails(false);
+  }, [dataSet, pageSize, setShowDetails]);
 
-  const hiddenColumns = data.columns.slice(
-    visibleColumnsIndexes.visibleColumnsEnd
+  const modifiedData = useMemo(() => {
+    const newData = { ...data };
+    newData.columns = data.columns.map((column) => ({
+      ...column,
+      flex: 1,
+      minWidth: 170,
+      headerAlign: "left",
+      align: "left",
+    }));
+    return newData;
+  }, [data]);
+
+  const { visibleColumns, hiddenColumns } = sliceColumns(
+    visibleColumnsIndexes.start,
+    visibleColumnsIndexes.end,
+    modifiedData
   );
 
   const hiddenFieldsRow = useMemo(
@@ -62,28 +80,29 @@ const useTableData = ({
   const handlePaginationModelChange = useCallback(
     (model: GridPaginationModel) => {
       setPaginationModel(model);
+      setShowDetails(false);
     },
-    [setPaginationModel]
+    [setPaginationModel, setShowDetails]
   );
 
   const paginateData = useCallback(() => {
-    if (!data.rows) return { ...data, rows: [] };
+    if (!modifiedData.rows) return { ...modifiedData, rows: [] };
 
-    const rows = data.rows || [];
-    const startIndex = paginationModel.page * pageSize;
-    const endIndex = startIndex + pageSize;
+    const rows = modifiedData.rows || [];
+    const startIndex = paginationModel.page * paginationModel.pageSize;
+    const endIndex = startIndex + paginationModel.pageSize;
     const paginatedRows = rows.slice(startIndex, endIndex);
 
     return {
-      ...data,
+      ...modifiedData,
       rows: paginatedRows,
     };
-  }, [data, paginationModel, page, pageSize]);
+  }, [modifiedData, paginationModel]);
 
   return {
     paginatedData: paginateData(),
     loading,
-    totalRows: data.rows?.length || 0,
+    totalRows: modifiedData.rows?.length || 0,
     paginationModel,
     handlePaginationModelChange,
     visibleColumns,

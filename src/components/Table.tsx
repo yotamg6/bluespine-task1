@@ -10,7 +10,7 @@ import {
   GridValidRowModel,
   useGridApiRef,
 } from "@mui/x-data-grid-premium";
-import { DemoData } from "../types";
+import { DemoData } from "../types/types";
 import { PAGE_SIZE_OPTIONS } from "../utils/constants";
 
 interface TableProps {
@@ -54,14 +54,6 @@ const Table = ({
         marginTop: 7,
         backgroundColor: "#b5c7eb",
         height: showDetails ? "23rem" : "45rem",
-        "& .MuiDataGrid-columnHeaders": {
-          position: "sticky",
-          top: 0,
-          zIndex: 1,
-        },
-        "& .MuiDataGrid-columnHeader": {
-          backgroundColor: "#f2f0ef",
-        },
       }}
     >
       <DataGridPremium

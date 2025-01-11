@@ -1,14 +1,14 @@
 import { renderHook } from "@testing-library/react";
 import useTableData from "../../hooks/useTableData";
-import { DataSetType } from "../../types";
+import { DataSetType } from "../../types/types";
 
 describe("useTableData", () => {
   it("should initialize with correct default values", () => {
     const props = {
       dataSet: "Commodity" as DataSetType,
       visibleColumnsIndexes: {
-        visibleColumnsStart: 0,
-        visibleColumnsEnd: 1,
+        start: 0,
+        end: 1,
       },
     };
 

@@ -1,14 +1,7 @@
 import { GridValidRowModel } from "@mui/x-data-grid-premium";
-import { ICONS } from "./mappers";
 import { GridColDefGenerator } from "@mui/x-data-grid-generator";
-
-export const getIconForTitle = (title: string) => {
-  const matchingKey = Object.keys(ICONS).find((key) =>
-    title.toLowerCase().includes(key.toLowerCase())
-  );
-
-  return matchingKey ? ICONS[matchingKey] : null;
-};
+import { DemoTreeDataValue } from "@mui/x-data-grid-generator/services/tree-data-generator";
+import { pages } from "../settings/pageEntities";
 
 export const getHiddenRowFields = (
   params: { row?: GridValidRowModel } | undefined,
@@ -50,4 +43,20 @@ export const getColor = (index: number, total: number) => {
   const b = Math.round(235 + (203 - 235) * ratio);
 
   return `rgb(${r}, ${g}, ${b})`;
+};
+
+export const sliceColumns = (
+  start: number,
+  end: number,
+  data: DemoTreeDataValue
+) => {
+  const visibleColumns = data.columns.slice(start, end);
+
+  const hiddenColumns = data.columns.slice(end);
+
+  return { visibleColumns, hiddenColumns };
+};
+
+export const getPageByIndex = (page: number) => {
+  return pages[page];
 };

@@ -6,30 +6,29 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { getIconForTitle } from "../utils/utils";
-import { useState } from "react";
+import { pages } from "../settings/pageEntities";
 
 interface SideBarProps {
   handlePageTitleClick: (pageNumber: number) => void;
-  currentPage: number;
+  currentPageIndex: number;
 }
 
-const SideBar = ({ handlePageTitleClick, currentPage }: SideBarProps) => {
+const SideBar = ({ handlePageTitleClick, currentPageIndex }: SideBarProps) => {
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation">
       <List>
-        {["Commodity", "Employee"].map((title, index) => (
+        {pages.map((page, index) => (
           <ListItem
-            key={title}
-            onClick={() => handlePageTitleClick(index + 1)}
+            key={index}
+            onClick={() => handlePageTitleClick(index)}
             sx={{
               backgroundColor:
-                currentPage === index + 1 ? "#cbcbcb" : "inherit",
+                currentPageIndex === index ? "#cbcbcb" : "inherit",
             }}
           >
             <ListItemButton>
-              <ListItemIcon>{getIconForTitle(title)}</ListItemIcon>
-              <ListItemText primary={title} />
+              <ListItemIcon>{page.sideBarIcon}</ListItemIcon>
+              <ListItemText primary={page.title} />
             </ListItemButton>
           </ListItem>
         ))}
