@@ -14,7 +14,7 @@ const TopPanel = () => {
         position="fixed"
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
-        {" "}
+        {/* //TODO: align content */}
         <Toolbar>
           <IconButton
             size="large"

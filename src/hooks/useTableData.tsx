@@ -35,6 +35,8 @@ const useTableData = ({
 
   const [showDetails, setShowDetails] = useState(false);
 
+  const [search, setSearch] = useState("");
+
   const { data, loading } = useDemoData({
     dataSet,
     rowLength: rowsToGenerate,
@@ -85,8 +87,34 @@ const useTableData = ({
     [setPaginationModel, setShowDetails]
   );
 
+  const handleSearchBarChange = useCallback(
+    // (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    (event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      // TODO: implement debounce here
+      setSearch((event.target as HTMLInputElement).value);
+    },
+    [setSearch]
+  );
+
   const paginateData = useCallback(() => {
     if (!modifiedData.rows) return { ...modifiedData, rows: [] };
+
+    if (search) {
+      const rows = modifiedData.rows;
+      const filteredRows = [];
+      for (const row of rows) {
+        const filtered = Object.values(row).filter((value) => {
+          return value === search;
+        });
+        if (filtered.length > 0) {
+          filteredRows.push(row);
+        }
+      }
+      return {
+        ...modifiedData,
+        rows: filteredRows,
+      };
+    }
 
     const rows = modifiedData.rows || [];
     const startIndex = paginationModel.page * paginationModel.pageSize;
@@ -97,7 +125,7 @@ const useTableData = ({
       ...modifiedData,
       rows: paginatedRows,
     };
-  }, [modifiedData, paginationModel]);
+  }, [modifiedData, paginationModel, search]);
 
   return {
     paginatedData: paginateData(),
@@ -110,6 +138,7 @@ const useTableData = ({
     hiddenFieldsRow,
     showDetails,
     setShowDetails,
+    handleSearchBarChange,
   };
 };
 

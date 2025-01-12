@@ -60,3 +60,16 @@ export const sliceColumns = (
 export const getPageByIndex = (page: number) => {
   return pages[page];
 };
+
+const debounce = <T extends (...args: unknown[]) => unknown>(
+  fn: () => void,
+  timeToWait: number
+) => {
+  let timeOut: number | null;
+  return (...args: Parameters<T>) => {
+    if (timeOut) {
+      clearTimeout(timeOut);
+    }
+    timeOut = setTimeout(fn, timeToWait, args);
+  };
+};

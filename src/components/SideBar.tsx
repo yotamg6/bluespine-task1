@@ -46,7 +46,7 @@ const SideBar = ({ handlePageTitleClick, currentPageIndex }: SideBarProps) => {
           "& .MuiDrawer-paper": {
             width: 250,
             boxSizing: "border-box",
-            marginTop: "64px",
+            marginTop: "4rem",
             borderTop: 3,
             borderRight: 3,
             borderColor: "divider",

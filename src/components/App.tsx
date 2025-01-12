@@ -20,7 +20,13 @@ const App = () => {
         handlePageTitleClick={handlePageTitleClick}
         currentPageIndex={currentPageIndex}
       />
-      <PageContainer pageIndex={currentPageIndex} />
+      <Box
+        sx={{
+          marginTop: "3rem",
+        }}
+      >
+        <PageContainer pageIndex={currentPageIndex} />
+      </Box>
     </Box>
   );
 };
