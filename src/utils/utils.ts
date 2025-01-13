@@ -61,15 +61,15 @@ export const getPageByIndex = (page: number) => {
   return pages[page];
 };
 
-const debounce = <T extends (...args: unknown[]) => unknown>(
-  fn: () => void,
+export const debounce = <T extends (...args: unknown[]) => unknown>(
+  fn: CallableFunction,
   timeToWait: number
 ) => {
-  let timeOut: number | null;
+  let timeoutId: ReturnType<typeof setTimeout>;
   return (...args: Parameters<T>) => {
-    if (timeOut) {
-      clearTimeout(timeOut);
+    if (timeoutId) {
+      clearTimeout(timeoutId);
     }
-    timeOut = setTimeout(fn, timeToWait, args);
+    timeoutId = setTimeout(() => fn(...args), timeToWait);
   };
 };

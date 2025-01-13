@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDemoData } from "@mui/x-data-grid-generator";
 import { DataSetType, VisibleColumnsIndexes } from "../types/types";
 import { NUM_OF_ROWS_TO_GENERATE, PAGE_SIZE } from "../utils/constants";
@@ -7,7 +7,7 @@ import {
   GridRowParams,
   GridValidRowModel,
 } from "@mui/x-data-grid-premium";
-import { getHiddenRowFields, sliceColumns } from "../utils/utils";
+import { debounce, getHiddenRowFields, sliceColumns } from "../utils/utils";
 
 interface UseTableDataProps {
   dataSet: DataSetType;
@@ -35,7 +35,9 @@ const useTableData = ({
 
   const [showDetails, setShowDetails] = useState(false);
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState<string>("");
+
+  const [totalRows, setTotalRows] = useState(0);
 
   const { data, loading } = useDemoData({
     dataSet,
@@ -87,13 +89,18 @@ const useTableData = ({
     [setPaginationModel, setShowDetails]
   );
 
+  const debouncedSearch = useRef(
+    debounce((value: string) => {
+      setSearch(value);
+    }, 300)
+  ).current;
+
   const handleSearchBarChange = useCallback(
-    // (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    (event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      // TODO: implement debounce here
-      setSearch((event.target as HTMLInputElement).value);
+    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const inputValue = (event.target as HTMLInputElement).value;
+      debouncedSearch(inputValue);
     },
-    [setSearch]
+    [debouncedSearch]
   );
 
   const paginateData = useCallback(() => {
@@ -103,10 +110,10 @@ const useTableData = ({
       const rows = modifiedData.rows;
       const filteredRows = [];
       for (const row of rows) {
-        const filtered = Object.values(row).filter((value) => {
+        const filtered = Object.values(row).some((value) => {
           return value === search;
         });
-        if (filtered.length > 0) {
+        if (filtered) {
           filteredRows.push(row);
         }
       }
@@ -127,10 +134,22 @@ const useTableData = ({
     };
   }, [modifiedData, paginationModel, search]);
 
+  useEffect(() => {
+    const rows = modifiedData.rows || [];
+    if (search) {
+      const filteredRows = rows.filter((row) =>
+        Object.values(row).some((value) => value === search)
+      );
+      setTotalRows(filteredRows.length);
+    } else {
+      setTotalRows(rows.length);
+    }
+  }, [modifiedData.rows, search]);
+
   return {
     paginatedData: paginateData(),
     loading,
-    totalRows: modifiedData.rows?.length || 0,
+    totalRows,
     paginationModel,
     handlePaginationModelChange,
     visibleColumns,

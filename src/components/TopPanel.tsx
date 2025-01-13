@@ -1,4 +1,3 @@
-import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -12,10 +11,11 @@ const TopPanel = () => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
         position="fixed"
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={{
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
       >
-        {/* //TODO: align content */}
-        <Toolbar>
+        <Toolbar sx={{ alignItems: "center" }}>
           <IconButton
             size="large"
             edge="start"
@@ -25,12 +25,15 @@ const TopPanel = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, alignSelf: "center", paddingTop: "0.375rem" }}
+          >
             <img
               src="https://cdn.prod.website-files.com/66261e9193d476675f204d77/66261e9193d476675f204e0d_nav-Logo-v2.svg"
               loading="lazy"
-              alt=""
-              className="navbar2_logo"
+              alt="bluespine Logo"
             />
           </Typography>
           <Button color="inherit">Login</Button>

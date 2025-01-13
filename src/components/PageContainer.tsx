@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 import { getPageByIndex } from "../utils/utils";
 import { Page } from "../types/types";
 import useTableData from "../hooks/useTableData";
@@ -6,6 +6,7 @@ import Table from "./Table";
 import DetailsBox from "./DetailsBox";
 import { Stack, Typography } from "@mui/material";
 import SearchBar from "./SearchBar";
+import "../styles/styles.css";
 
 interface PageContainerProps {
   pageIndex: number;
@@ -32,18 +33,7 @@ const PageContainer = ({ pageIndex }: PageContainerProps) => {
 
   return (
     <Stack>
-      <Stack //TODO: export styling to styling file and pass as className
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        height="5.5rem"
-        sx={{
-          pt: 2,
-          pl: 3,
-          pr: 20,
-          backgroundColor: "#faf1f0",
-        }}
-      >
+      <Stack direction="row" className="page-header">
         <Typography variant="h3">{page.title}</Typography>
         <SearchBar handleSearchBarChange={handleSearchBarChange} />
       </Stack>

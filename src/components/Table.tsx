@@ -54,7 +54,7 @@ const Table = ({
         backgroundColor: "#b5c7eb",
         height: showDetails ? "23rem" : "45rem",
         overflowX: "auto",
-        width: "90vw",
+        width: "calc(100vw - 250px)", // width of sideBar
       }}
     >
       <DataGridPremium
@@ -70,8 +70,6 @@ const Table = ({
         pageSizeOptions={pageSizeOptions}
         columns={visibleColumns}
         onRowClick={handleRowClick}
-        disableColumnPinning
-        // pinnedColumns={{ left: ["desk"] }}
         sx={{
           "& .MuiDataGrid-row:hover": {
             cursor: "pointer",
